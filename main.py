@@ -71,6 +71,10 @@ def send_otp_email(email, otp):
     logger.info(f"Simulating OTP send: {otp} to {email}")
     return True
 
+@app.route('/')
+def root():
+    return jsonify({'message': 'Welcome to the Flask Authentication API'}), 200
+
 @app.route('/api/register', methods=['POST'])
 def register():
     data = request.json or {}
@@ -160,11 +164,11 @@ def login():
     send_otp_email(email, otp)
 
     return jsonify({'success': True, 'message': 'OTP sent to email.', 'email': email}), 200
+
 @app.route('/api/logout', methods=['POST'])
 def logout():
     # Instruct client to delete token (token is stateless, so no server-side action)
     return jsonify({'success': True, 'message': 'Logged out successfully. Please delete token on client.'}), 200
-
 
 @app.route('/api/user/profile', methods=['GET'])
 def get_user_profile():
